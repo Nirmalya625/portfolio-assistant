@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nirmalya Sarkar — Machine Learning Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F14;
+    --bg-panel:#10161D;
+    --bg-panel-2:#141C24;
+    --line:#1E2A33;
+    --line-soft:#161F27;
+    --text:#E7EEEC;
+    --text-dim:#8FA3A6;
+    --text-faint:#516069;
+    --accent:#5EEAD4;
+    --accent-soft:rgba(94,234,212,0.12);
+    --accent-2:#F5A623;
+    --serif-display:'Space Grotesk',sans-serif;
+    --sans:'Inter',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+    --maxw:1120px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor button{cursor:none;}
+
+  ::selection{background:var(--accent);color:#04140F;}
+
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+
+  /* ---------- background grid texture ---------- */
+  .grid-texture{
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    pointer-events:none;
+    z-index:0;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 85%);
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(11,15,20,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-family:var(--mono);
+    font-size:14px;
+    letter-spacing:0.02em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .brand-mark{
+    width:20px;height:20px;position:relative;flex:none;
+  }
+  .brand-mark svg{width:100%;height:100%;display:block;}
+  .nav-links{display:flex;align-items:center;gap:28px;font-size:14px;color:var(--text-dim);}
+  .nav-links a{transition:color 0.2s ease;}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-icons{display:flex;gap:14px;align-items:center;}
+  .icon-btn{
+    width:34px;height:34px;border:1px solid var(--line);border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text-dim);
+    transition:border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .icon-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+  .icon-btn svg{width:16px;height:16px;}
+  @media (max-width:760px){ .nav-links{display:none;} }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;align-items:center;
+    padding-top:64px;
+    overflow:hidden;
+  }
+  #hero-canvas{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    z-index:0;
+  }
+  .hero-fade{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(11,15,20,0.15) 0%, rgba(11,15,20,0.55) 70%, var(--bg) 100%);
+    z-index:1;pointer-events:none;
+  }
+  .hero-inner{position:relative;z-index:2;width:100%;}
+  .hero-kicker{
+    font-family:var(--mono);
+    font-size:13px;color:var(--accent);
+    margin-bottom:22px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .hero-kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);}
+  h1.hero-title{
+    font-family:var(--serif-display);
+    font-weight:600;
+    font-size:clamp(38px, 6.4vw, 78px);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+    max-width:900px;
+    margin-bottom:26px;
+  }
+  .hero-sub{
+    font-size:18px;
+    color:var(--text-dim);
+    max-width:560px;
+    margin-bottom:40px;
+  }
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:64px;}
+  .btn{
+    font-family:var(--sans);
+    font-size:14px;font-weight:500;
+    padding:12px 22px;
+    border-radius:6px;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color .2s ease;
+  }
+  .btn-primary{background:var(--accent);color:#04140F;}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+  .hero-stats{
+    display:flex;gap:0;
+    border-top:1px solid var(--line);
+    max-width:640px;
+  }
+  .stat{
+    flex:1;padding:18px 22px 0 0;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat b{
+    display:block;font-family:var(--serif-display);
+    font-size:26px;font-weight:600;color:var(--text);
+  }
+  .stat span{font-size:13px;color:var(--text-faint);font-family:var(--mono);}
+
+  /* ---------- section shells ---------- */
+  section{position:relative;z-index:1;}
+  .section{padding:110px 0;border-bottom:1px solid var(--line);}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;margin-bottom:56px;flex-wrap:wrap;
+  }
+  .section-title{
+    font-family:var(--serif-display);
+    font-size:clamp(28px,3.4vw,40px);
+    font-weight:600;letter-spacing:-0.01em;
+    max-width:520px;
+  }
+  .section-note{
+    font-size:15px;color:var(--text-dim);max-width:360px;
+  }
+
+  /* ---------- techniques ---------- */
+  .tech-groups{display:flex;flex-direction:column;gap:0;}
+  .tech-group{
+    display:grid;grid-template-columns:220px 1fr;gap:32px;
+    padding:26px 0;border-top:1px solid var(--line);
+  }
+  .tech-group:last-child{border-bottom:1px solid var(--line);}
+  .tech-group-label{
+    font-family:var(--mono);font-size:13px;color:var(--text-dim);
+    padding-top:4px;
+  }
+  .tech-chips{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{
+    font-family:var(--mono);font-size:13px;color:var(--text);
+    border:1px solid var(--line);padding:7px 13px;border-radius:5px;
+    transition:border-color 0.2s ease, color 0.2s ease;
+  }
+  .chip:hover{border-color:var(--accent);color:var(--accent);}
+  .chip.explored{color:var(--text-faint);border-style:dashed;}
+  @media (max-width:700px){
+    .tech-group{grid-template-columns:1fr;gap:12px;}
+  }
+
+  /* ---------- projects ---------- */
+  .project{
+    display:grid;grid-template-columns:280px 1fr;gap:40px;
+    padding:40px 0;border-top:1px solid var(--line);
+  }
+  .project:last-child{border-bottom:1px solid var(--line);}
+  .project-head{display:flex;flex-direction:column;gap:10px;}
+  .project-name{
+    font-family:var(--serif-display);font-size:22px;font-weight:600;
+  }
+  .project-cat{
+    font-family:var(--mono);font-size:12px;color:var(--accent);
+  }
+  .project-link{
+    margin-top:6px;font-size:13px;color:var(--text-dim);
+    display:inline-flex;align-items:center;gap:6px;width:fit-content;
+    border-bottom:1px solid transparent;
+    transition:color 0.2s ease,border-color 0.2s ease;
+  }
+  .project-link:hover{color:var(--accent);border-color:var(--accent);}
+  .project-body p{color:var(--text-dim);font-size:15px;max-width:620px;margin-bottom:18px;}
+  .project-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{
+    font-family:var(--mono);font-size:12px;color:var(--text-faint);
+    border:1px solid var(--line-soft);padding:5px 10px;border-radius:4px;
+  }
+  @media (max-width:760px){
+    .project{grid-template-columns:1fr;gap:16px;}
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;}
+  .about-grid p{color:var(--text-dim);font-size:16px;margin-bottom:18px;max-width:520px;}
+  .about-list{border-top:1px solid var(--line);}
+  .about-row{
+    display:flex;justify-content:space-between;padding:16px 0;
+    border-bottom:1px solid var(--line);font-size:14px;
+  }
+  .about-row span:first-child{color:var(--text-faint);font-family:var(--mono);font-size:13px;}
+  @media (max-width:760px){ .about-grid{grid-template-columns:1fr;} }
+
+  /* ---------- footer ---------- */
+  footer{padding:56px 0;}
+  .footer-row{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:20px;
+  }
+  .footer-links{display:flex;gap:22px;font-size:14px;color:var(--text-dim);}
+  .footer-links a:hover{color:var(--accent);}
+  .footer-note{font-size:13px;color:var(--text-faint);font-family:var(--mono);}
+
+  /* ---------- custom cursor ---------- */
+  #cursor-canvas{
+    position:fixed;inset:0;width:100vw;height:100vh;
+    pointer-events:none;z-index:999;
+  }
+  .cursor-dot{
+    position:fixed;top:0;left:0;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 10px 2px var(--accent);
+    pointer-events:none;z-index:1000;
+    transform:translate(-50%,-50%);
+    transition:width 0.15s ease, height 0.15s ease, background 0.15s ease;
+  }
+  .cursor-ring{
+    position:fixed;top:0;left:0;
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid var(--accent);
+    opacity:0.5;
+    pointer-events:none;z-index:999;
+    transform:translate(-50%,-50%);
+  }
+
+  /* ---------- chat assistant ---------- */
+  .chat-launch{
+    position:fixed;right:24px;bottom:24px;z-index:60;
+    display:flex;align-items:center;gap:10px;
+    padding:12px 18px;border-radius:999px;
+    background:var(--bg-panel);border:1px solid var(--accent);color:var(--accent);
+    font-family:var(--sans);font-size:14px;font-weight:500;
+    box-shadow:0 0 0 4px var(--accent-soft), 0 10px 30px rgba(0,0,0,0.45);
+    transition:transform .2s ease, background .2s ease;
+  }
+  .chat-launch:hover{transform:translateY(-2px);background:var(--accent-soft);}
+  .chat-launch svg{width:18px;height:18px;}
+  .chat-launch[aria-expanded="true"]{display:none;}
+
+  .chat-panel{
+    position:fixed;right:24px;bottom:24px;z-index:61;
+    width:392px;max-width:calc(100vw - 32px);height:min(600px, calc(100vh - 48px));
+    display:none;flex-direction:column;
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.55);
+    overflow:hidden;
+  }
+  .chat-panel.open{display:flex;animation:chatIn .22s ease-out;}
+  @keyframes chatIn{from{opacity:0;transform:translateY(12px) scale(.98);}to{opacity:1;transform:none;}}
+
+  .chat-head{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:14px 16px;border-bottom:1px solid var(--line);background:var(--bg-panel-2);
+  }
+  .chat-title{font-family:var(--serif-display);font-weight:600;font-size:15px;}
+  .chat-sub{font-family:var(--mono);font-size:11px;color:var(--text-faint);margin-top:2px;}
+  .chat-head-actions{display:flex;gap:8px;}
+  .chat-head .icon-btn{width:30px;height:30px;background:transparent;}
+  .chat-head .icon-btn svg{width:14px;height:14px;}
+
+  .chat-log{
+    flex:1;overflow-y:auto;padding:18px 16px;
+    display:flex;flex-direction:column;gap:14px;
+    scrollbar-width:thin;scrollbar-color:var(--line) transparent;
+  }
+  .msg{max-width:88%;font-size:14px;line-height:1.55;word-wrap:break-word;}
+  .msg.user{
+    align-self:flex-end;background:var(--accent-soft);border:1px solid rgba(94,234,212,0.28);
+    padding:9px 13px;border-radius:10px 10px 2px 10px;white-space:pre-wrap;
+  }
+  .msg.bot{align-self:flex-start;color:var(--text);padding-left:12px;border-left:2px solid var(--line);}
+  .msg.bot.pending{color:var(--text-faint);font-family:var(--mono);font-size:12px;}
+  .msg.bot.error{border-left-color:var(--accent-2);color:var(--accent-2);}
+  .msg.bot strong{font-weight:600;}
+  .msg.bot code{font-family:var(--mono);font-size:12.5px;background:var(--bg);padding:1px 5px;border-radius:3px;}
+  .msg.bot a{color:var(--accent);border-bottom:1px solid rgba(94,234,212,0.35);}
+  .msg.bot .cite{font-family:var(--mono);font-size:11px;color:var(--text-faint);}
+  .msg.bot p{margin:0 0 8px;} .msg.bot p:last-child{margin-bottom:0;}
+  .msg.bot ul{margin:0 0 8px 18px;} .msg.bot li{margin:2px 0;}
+
+  .chat-suggest{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px;}
+  .chat-suggest button{
+    font-family:var(--mono);font-size:12px;color:var(--text-dim);text-align:left;
+    background:transparent;border:1px solid var(--line);border-radius:5px;padding:6px 10px;
+    transition:border-color .2s ease,color .2s ease;
+  }
+  .chat-suggest button:hover{border-color:var(--accent);color:var(--accent);}
+
+  .chat-attached{
+    display:none;align-items:center;justify-content:space-between;gap:10px;
+    margin:0 16px 8px;padding:6px 10px;border:1px dashed var(--line);border-radius:5px;
+    font-family:var(--mono);font-size:12px;color:var(--text-dim);
+  }
+  .chat-attached.show{display:flex;}
+  .chat-attached span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+  .chat-form{
+    display:flex;align-items:flex-end;gap:8px;
+    padding:12px 12px 12px 16px;border-top:1px solid var(--line);
+  }
+  .chat-form textarea{
+    flex:1;resize:none;max-height:120px;min-height:38px;
+    background:var(--bg);color:var(--text);
+    border:1px solid var(--line);border-radius:6px;padding:9px 11px;
+    font-family:var(--sans);font-size:14px;line-height:1.4;
+  }
+  .chat-form textarea::placeholder{color:var(--text-faint);}
+  .chat-form textarea:focus,.chat-form textarea:focus-visible{outline:none;border-color:var(--accent);}
+  .chat-form .icon-btn{width:38px;height:38px;flex:none;background:transparent;}
+  .chat-send{
+    width:38px;height:38px;flex:none;border-radius:6px;background:var(--accent);color:#04140F;
+    display:flex;align-items:center;justify-content:center;transition:transform .2s ease, opacity .2s ease;
+  }
+  .chat-send:hover{transform:translateY(-1px);}
+  .chat-send:disabled{opacity:.4;transform:none;}
+  .chat-send svg{width:16px;height:16px;}
+  .chat-launch:focus-visible,.chat-panel button:focus-visible,.chat-panel .icon-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  body.has-custom-cursor .chat-panel, body.has-custom-cursor .chat-panel *{cursor:none;}
+
+  @media (max-width:480px){
+    .chat-launch{right:16px;bottom:16px;}
+    .chat-panel{right:0;bottom:0;width:100vw;max-width:100vw;height:100dvh;border-radius:0;border:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-texture"></div>
+<canvas id="cursor-canvas"></canvas>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 20 20" fill="none">
+          <circle cx="4" cy="10" r="2.4" stroke="#5EEAD4" stroke-width="1.2"/>
+          <circle cx="16" cy="4" r="2.4" stroke="#5EEAD4" stroke-width="1.2"/>
+          <circle cx="16" cy="16" r="2.4" stroke="#5EEAD4" stroke-width="1.2"/>
+          <line x1="6.1" y1="9" x2="13.9" y2="5" stroke="#5EEAD4" stroke-width="1"/>
+          <line x1="6.1" y1="11" x2="13.9" y2="15" stroke="#5EEAD4" stroke-width="1"/>
+        </svg>
+      </span>
+      Nirmalya Sarkar
+    </div>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#techniques">Techniques</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-icons">
+      <a class="icon-btn" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 4.94 3.2 9.13 7.65 10.6.56.1.77-.24.77-.54 0-.27-.01-1.15-.02-2.09-3.11.68-3.77-1.32-3.77-1.32-.5-1.28-1.23-1.62-1.23-1.62-1-.7.08-.68.08-.68 1.11.08 1.7 1.14 1.7 1.14.98 1.7 2.58 1.2 3.21.92.1-.72.39-1.2.7-1.48-2.48-.28-5.1-1.24-5.1-5.53 0-1.22.43-2.22 1.14-3-.12-.28-.5-1.42.1-2.95 0 0 .93-.3 3.05 1.14a10.6 10.6 0 0 1 5.56 0c2.11-1.44 3.04-1.14 3.04-1.14.6 1.53.22 2.67.11 2.95.71.78 1.13 1.78 1.13 3 0 4.3-2.62 5.24-5.12 5.52.4.35.76 1.03.76 2.08 0 1.5-.01 2.71-.01 3.08 0 .3.2.65.78.54A10.53 10.53 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5z"/></svg>
+      </a>
+      <a class="icon-btn" href="https://www.linkedin.com/in/nirmalyasarkar/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-fade"></div>
+  <div class="hero-inner">
+    <div class="wrap">
+      <div class="hero-kicker"><span class="dot"></span>MACHINE LEARNING &amp; DEEP LEARNING PORTFOLIO</div>
+      <h1 class="hero-title">I build systems that find the signal in the noise.</h1>
+      <p class="hero-sub">Eight end-to-end projects spanning fraud screening, forecasting, recommendation, and conversational AI — each shipped as a working app, not just a notebook.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#work">See the work</a>
+        <a class="btn btn-ghost" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">GitHub profile</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>8</b><span>shipped projects</span></div>
+        <div class="stat"><b>15+</b><span>models &amp; techniques</span></div>
+        <div class="stat"><b>6.3M</b><span>rows in the largest dataset</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="techniques">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-title">What's actually running under the hood</div>
+      <div class="section-note">Every technique below shipped inside one of the projects on this page — the dashed tags are areas studied in depth but not yet deployed.</div>
+    </div>
+    <div class="tech-groups">
+      <div class="tech-group">
+        <div class="tech-group-label">Supervised learning</div>
+        <div class="tech-chips">
+          <span class="chip">Logistic Regression</span>
+          <span class="chip">Random Forest</span>
+          <span class="chip">XGBoost</span>
+          <span class="chip">Gradient Boosting</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <div class="tech-group-label">Unsupervised learning</div>
+        <div class="tech-chips">
+          <span class="chip">K-Means</span>
+          <span class="chip">Hierarchical Clustering</span>
+          <span class="chip">DBSCAN</span>
+          <span class="chip">Isolation Forest</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <div class="tech-group-label">Model explainability</div>
+        <div class="tech-chips">
+          <span class="chip">SHAP</span>
+          <span class="chip">Threshold tuning</span>
+          <span class="chip">Precision-Recall AUC</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <div class="tech-group-label">NLP &amp; language systems</div>
+        <div class="tech-chips">
+          <span class="chip">TF-IDF retrieval</span>
+          <span class="chip">VADER sentiment</span>
+          <span class="chip">Retrieval-augmented generation</span>
+          <span class="chip">LLM integration (Groq)</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <div class="tech-group-label">Simulation &amp; probability</div>
+        <div class="tech-chips">
+          <span class="chip">Elo rating systems</span>
+          <span class="chip">Monte Carlo simulation</span>
+          <span class="chip">Brier score validation</span>
+        </div>
+      </div>
+      <div class="tech-group">
+        <div class="tech-group-label">Deep learning &amp; vision</div>
+        <div class="tech-chips">
+          <span class="chip explored">CNNs</span>
+          <span class="chip explored">U-Net</span>
+          <span class="chip explored">Vision Transformers</span>
+          <span class="chip explored">Autoencoders</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-title">Projects</div>
+      <div class="section-note">Each one follows the same discipline: a real dataset, a Jupyter notebook showing the work, and a Flask or full-stack app that actually runs the model.</div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">Fraud Detection Console</div>
+        <div class="project-cat">Supervised learning · Explainability</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+      <div class="project-body">
+        <p>Screens transactions from a 6.36M-row PaySim-style dataset for fraud. Compared Logistic Regression, Random Forest, XGBoost, and Isolation Forest, then shipped a Random Forest pipeline (PR-AUC 0.997) behind a dark "screening desk" interface with per-prediction SHAP explanations and an animated CLEARED / FLAGGED verdict stamp.</p>
+        <div class="project-tags">
+          <span class="tag">Random Forest</span><span class="tag">XGBoost</span><span class="tag">Isolation Forest</span><span class="tag">SHAP</span><span class="tag">Flask</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">SIGNAL — Stock Predictor</div>
+        <div class="project-cat">Supervised learning · Forecasting</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+      <div class="project-body">
+        <p>Predicts a next-day buy/sell signal across a multi-asset pipeline that pulls in market, sector, and VIX context. Compares Logistic Regression against Random Forest and outputs a probability with a confidence score rather than a flat call.</p>
+        <div class="project-tags">
+          <span class="tag">Logistic Regression</span><span class="tag">Random Forest</span><span class="tag">Multi-asset pipeline</span><span class="tag">Flask</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">World Cup 2026 Predictor</div>
+        <div class="project-cat">Simulation · Probabilistic modeling</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+      <div class="project-body">
+        <p>Knockout-stage prediction engine trained on roughly 49,500 historical matches. An Elo rating engine feeds a logistic regression win-probability model, and outcomes are resolved with Monte Carlo bracket simulation, presented in an animated stadium-night interface.</p>
+        <div class="project-tags">
+          <span class="tag">Elo Ratings</span><span class="tag">Monte Carlo</span><span class="tag">scikit-learn</span><span class="tag">Flask + JS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">Nova — AI Companion</div>
+        <div class="project-cat">NLP · Applied ML</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+      <div class="project-body">
+        <p>A browser-based AI companion with long-term memory: SQLite storage retrieved with TF-IDF and a trained logistic regression memory-lookup classifier, VADER-based emotion detection, live weather, web search, voice input, and a procedural audio layer, all served from a Flask backend.</p>
+        <div class="project-tags">
+          <span class="tag">TF-IDF</span><span class="tag">Logistic Regression</span><span class="tag">VADER</span><span class="tag">Groq LLM</span><span class="tag">SQLite</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">Interview Practice Coach</div>
+        <div class="project-cat">NLP · Sentiment analysis</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+      <div class="project-body">
+        <p>A mock-interview chatbot that reads tone as you type. VADER sentiment combined with hedging and filler-word heuristics drives a live emotion meter and adaptive follow-up questions, with an LLM-generated closing summary that falls back to a rule-based one offline.</p>
+        <div class="project-tags">
+          <span class="tag">VADER</span><span class="tag">Adaptive questioning</span><span class="tag">Groq LLM</span><span class="tag">Flask</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">Conversational AI Assistant</div>
+        <div class="project-cat">NLP · Retrieval-augmented generation</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+        <a class="project-link" href="#" data-open-chat>Try it here →</a>
+      </div>
+      <div class="project-body">
+        <p>A streaming chat app with conversation memory and retrieval-augmented generation over uploaded documents, split into dedicated chatbot, memory, and RAG services, deployed live rather than left on localhost.</p>
+        <div class="project-tags">
+          <span class="tag">RAG</span><span class="tag">Groq</span><span class="tag">Streaming UI</span><span class="tag">Render deploy</span><span class="tag">Live on this page</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">Movie Recommender</div>
+        <div class="project-cat">Unsupervised · Content-based filtering</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+      <div class="project-body">
+        <p>Content-based recommendation engine over the TMDB 5000 dataset. Vectorizes genres, keywords, cast, and director with configurable feature weighting, tuned with grid search for precision@5.</p>
+        <div class="project-tags">
+          <span class="tag">CountVectorizer</span><span class="tag">Cosine Similarity</span><span class="tag">scikit-learn</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-name">Healthcare Platform</div>
+        <div class="project-cat">Full-stack · OCR / document AI</div>
+        <a class="project-link" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+      <div class="project-body">
+        <p>Connects patients, sample collectors, labs, and admins in one booking-to-report workflow, with AI/OCR extraction of prescriptions. Node.js and Express on the backend, a Python OCR/NLP service, and MySQL/PostgreSQL for storage.</p>
+        <div class="project-tags">
+          <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">OCR</span><span class="tag">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="about" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="section-title" style="margin-bottom:24px;">About</div>
+        <p>I build machine learning projects the way I'd want to hand them to a hiring manager: a real dataset, a notebook that shows the reasoning, and an app that actually runs the model — not a slide about it.</p>
+        <p>The projects here span fraud detection, forecasting, recommendation, simulation, and conversational AI, and every one of them follows the same structure: data, model, Flask or full-stack backend, and a frontend built for the subject matter rather than a generic template.</p>
+        <div class="hero-cta" style="margin-top:8px;">
+          <a class="btn btn-ghost" href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/nirmalyasarkar/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <div class="about-list">
+        <div class="about-row"><span>Stack</span><span>Python, Flask, scikit-learn, Node.js</span></div>
+        <div class="about-row"><span>Format</span><span>Notebook + backend + app, every time</span></div>
+        <div class="about-row"><span>Focus</span><span>Applied ML, explainability, NLP</span></div>
+        <div class="about-row"><span>Exploring</span><span>Computer vision, medical imaging</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="footer-note">Nirmalya Sarkar — Machine Learning Portfolio</div>
+      <div class="footer-links">
+        <a href="https://github.com/Nirmalya625/nirmalya-sarkar" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/nirmalyasarkar/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#work">Work</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="chat-launch" id="chatLaunch" aria-expanded="false" aria-controls="chatPanel">
+  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <circle cx="4" cy="10" r="2.4" stroke="currentColor" stroke-width="1.3"/>
+    <circle cx="16" cy="4" r="2.4" stroke="currentColor" stroke-width="1.3"/>
+    <circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.3"/>
+    <line x1="6.1" y1="9" x2="13.9" y2="5" stroke="currentColor" stroke-width="1.1"/>
+    <line x1="6.1" y1="11" x2="13.9" y2="15" stroke="currentColor" stroke-width="1.1"/>
+  </svg>
+  Ask about my work
+</button>
+
+<div class="chat-panel" id="chatPanel" role="dialog" aria-label="Portfolio assistant">
+  <div class="chat-head">
+    <div>
+      <div class="chat-title">Portfolio assistant</div>
+      <div class="chat-sub">answers from Nirmalya's projects</div>
+    </div>
+    <div class="chat-head-actions">
+      <button class="icon-btn" id="chatReset" type="button" aria-label="Start a new conversation" title="New conversation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      </button>
+      <button class="icon-btn" id="chatClose" type="button" aria-label="Close assistant">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+
+  <div class="chat-suggest" id="chatSuggest">
+    <button type="button">What has he built?</button>
+    <button type="button">How does the fraud detector explain its predictions?</button>
+    <button type="button">Which projects use RAG?</button>
+  </div>
+
+  <div class="chat-attached" id="chatAttached"><span id="chatAttachedName"></span></div>
+
+  <form class="chat-form" id="chatForm">
+    <input type="file" id="chatFile" accept="application/pdf,.pdf" hidden>
+    <button class="icon-btn" id="chatAttach" type="button" aria-label="Attach a PDF, such as a job description" title="Attach a PDF (e.g. a job description)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5l-8.5 8.5a5.5 5.5 0 0 1-7.8-7.8l9-9a3.7 3.7 0 0 1 5.2 5.2l-9 9a1.8 1.8 0 0 1-2.6-2.6l8.3-8.3"/></svg>
+    </button>
+    <textarea id="chatInput" rows="1" maxlength="1000" placeholder="Ask about a project…" aria-label="Message"></textarea>
+    <button class="chat-send" id="chatSend" type="submit" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isCoarse = window.matchMedia('(pointer: coarse)').matches;
+
+  /* ---------------- Hero ambient neural network ---------------- */
+  var heroCanvas = document.getElementById('hero-canvas');
+  var heroCtx = heroCanvas.getContext('2d');
+  var heroSection = document.querySelector('.hero');
+  var heroNodes = [];
+
+  function sizeHero(){
+    heroCanvas.width = heroSection.offsetWidth;
+    heroCanvas.height = heroSection.offsetHeight;
+  }
+
+  function initHeroNodes(){
+    heroNodes = [];
+    var count = Math.max(28, Math.floor((heroCanvas.width * heroCanvas.height) / 32000));
+    for(var i=0;i<count;i++){
+      heroNodes.push({
+        x: Math.random()*heroCanvas.width,
+        y: Math.random()*heroCanvas.height,
+        vx: (Math.random()-0.5)*0.25,
+        vy: (Math.random()-0.5)*0.25,
+        r: Math.random()*1.6+0.8
+      });
+    }
+  }
+
+  function drawHero(){
+    heroCtx.clearRect(0,0,heroCanvas.width,heroCanvas.height);
+    var maxDist = 150;
+    for(var i=0;i<heroNodes.length;i++){
+      var a = heroNodes[i];
+      a.x += a.vx; a.y += a.vy;
+      if(a.x < 0 || a.x > heroCanvas.width) a.vx *= -1;
+      if(a.y < 0 || a.y > heroCanvas.height) a.vy *= -1;
+
+      for(var j=i+1;j<heroNodes.length;j++){
+        var b = heroNodes[j];
+        var dx = a.x-b.x, dy = a.y-b.y;
+        var dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < maxDist){
+          heroCtx.strokeStyle = 'rgba(94,234,212,' + (0.14*(1-dist/maxDist)) + ')';
+          heroCtx.lineWidth = 1;
+          heroCtx.beginPath();
+          heroCtx.moveTo(a.x,a.y);
+          heroCtx.lineTo(b.x,b.y);
+          heroCtx.stroke();
+        }
+      }
+    }
+    for(var k=0;k<heroNodes.length;k++){
+      var n = heroNodes[k];
+      heroCtx.fillStyle = 'rgba(94,234,212,0.55)';
+      heroCtx.beginPath();
+      heroCtx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      heroCtx.fill();
+    }
+    if(!reduceMotion) requestAnimationFrame(drawHero);
+  }
+
+  window.addEventListener('resize', function(){ sizeHero(); initHeroNodes(); });
+  sizeHero(); initHeroNodes(); drawHero();
+  if(reduceMotion){ drawHero(); } /* draw one static frame */
+
+  /* ---------------- Custom cursor + synapse trail ---------------- */
+  if(!isCoarse){
+    document.body.classList.add('has-custom-cursor');
+
+    var cCanvas = document.getElementById('cursor-canvas');
+    var cCtx = cCanvas.getContext('2d');
+    var dot = document.getElementById('cursorDot');
+    var ring = document.getElementById('cursorRing');
+
+    function sizeCursorCanvas(){
+      cCanvas.width = window.innerWidth;
+      cCanvas.height = window.innerHeight;
+    }
+    sizeCursorCanvas();
+    window.addEventListener('resize', sizeCursorCanvas);
+
+    var mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+    var ringX = mouseX, ringY = mouseY;
+    var particles = [];
+    var lastSpawn = 0;
+
+    window.addEventListener('mousemove', function(e){
+      mouseX = e.clientX; mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+
+      var now = performance.now();
+      if(now - lastSpawn > 45){
+        lastSpawn = now;
+        particles.push({
+          x: mouseX + (Math.random()-0.5)*6,
+          y: mouseY + (Math.random()-0.5)*6,
+          life: 1
+        });
+        if(particles.length > 40) particles.shift();
+      }
+    });
+
+    document.addEventListener('mousedown', function(){
+      dot.style.width='14px'; dot.style.height='14px';
+    });
+    document.addEventListener('mouseup', function(){
+      dot.style.width='8px'; dot.style.height='8px';
+    });
+
+    function animCursor(){
+      ringX += (mouseX - ringX) * 0.16;
+      ringY += (mouseY - ringY) * 0.16;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+
+      cCtx.clearRect(0,0,cCanvas.width,cCanvas.height);
+
+      for(var i=0;i<particles.length;i++){
+        particles[i].life -= 0.028;
+      }
+      particles = particles.filter(function(p){ return p.life > 0; });
+
+      var maxDist = 90;
+      for(var i=0;i<particles.length;i++){
+        for(var j=i+1;j<particles.length;j++){
+          var a = particles[i], b = particles[j];
+          var dx = a.x-b.x, dy = a.y-b.y;
+          var dist = Math.sqrt(dx*dx+dy*dy);
+          if(dist < maxDist){
+            var alpha = Math.min(a.life,b.life) * (1-dist/maxDist) * 0.5;
+            cCtx.strokeStyle = 'rgba(94,234,212,' + alpha + ')';
+            cCtx.lineWidth = 1;
+            cCtx.beginPath();
+            cCtx.moveTo(a.x,a.y);
+            cCtx.lineTo(b.x,b.y);
+            cCtx.stroke();
+          }
+        }
+      }
+      for(var k=0;k<particles.length;k++){
+        var p = particles[k];
+        cCtx.fillStyle = 'rgba(94,234,212,' + (p.life*0.8) + ')';
+        cCtx.beginPath();
+        cCtx.arc(p.x,p.y,1.6*p.life,0,Math.PI*2);
+        cCtx.fill();
+      }
+
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+  }
+})();
+</script>
+
+<script>
+(function(){
+  /* API_BASE: '' = same server that served this page (Flask). Only set a full URL
+     (e.g. 'https://your-app.onrender.com') if this page is hosted somewhere else. */
+  var API_BASE = '';
+  var local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  var API = (location.protocol === 'file:' || (local && location.port !== '5050' && location.port !== '')) ? 'http://localhost:5050' : API_BASE;
+
+  var sid;
+  try { sid = localStorage.getItem('chat_sid'); } catch(e){}
+  if(!sid){
+    sid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2);
+    try { localStorage.setItem('chat_sid', sid); } catch(e){}
+  }
+
+  var $ = function(id){ return document.getElementById(id); };
+  var launch = $('chatLaunch'), panel = $('chatPanel'), log = $('chatLog'), form = $('chatForm');
+  var input = $('chatInput'), sendBtn = $('chatSend'), suggest = $('chatSuggest');
+  var fileInput = $('chatFile'), attached = $('chatAttached'), attachedName = $('chatAttachedName');
+  var busy = false;
+
+  var GREETING = "Hi, I'm the assistant for this portfolio. Ask me about any project, the techniques behind it, or attach a job description (PDF) and I'll show which of Nirmalya's projects fit it.";
+
+  /* wake a sleeping free-tier server before anyone needs it */
+  fetch(API + '/healthz', {mode:'cors'}).catch(function(){});
+
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function inline(s){
+    s = esc(s);
+    s = s.replace(/\[Source: ([^\]]+)\]/g, '<span class="cite">[Source: $1]</span>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    return s;
+  }
+  function render(text){
+    var out = [], list = [];
+    function flush(){ if(list.length){ out.push('<ul>' + list.join('') + '</ul>'); list = []; } }
+    text.split('\n').forEach(function(line){
+      var m = line.match(/^\s*[-*•]\s+(.*)/);
+      if(m){ list.push('<li>' + inline(m[1]) + '</li>'); return; }
+      flush();
+      if(line.trim()) out.push('<p>' + inline(line) + '</p>');
+    });
+    flush();
+    return out.join('');
+  }
+
+  function addMsg(kind, text){
+    var el = document.createElement('div');
+    el.className = 'msg ' + kind;
+    if(kind === 'user') el.textContent = text; else el.innerHTML = render(text);
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return el;
+  }
+
+  function open(){
+    panel.classList.add('open');
+    launch.setAttribute('aria-expanded','true');
+    if(!log.children.length) addMsg('bot', GREETING);
+    setTimeout(function(){ input.focus(); }, 50);
+  }
+  function close(){
+    panel.classList.remove('open');
+    launch.setAttribute('aria-expanded','false');
+    launch.focus();
+  }
+  launch.addEventListener('click', open);
+  $('chatClose').addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && panel.classList.contains('open')) close(); });
+  document.querySelectorAll('[data-open-chat]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); open(); });
+  });
+
+  function setBusy(b){ busy = b; sendBtn.disabled = b; }
+
+  async function send(text){
+    text = text.trim();
+    if(!text || busy) return;
+    suggest.style.display = 'none';
+    addMsg('user', text);
+    var bot = addMsg('bot pending', 'thinking…');
+    setBusy(true);
+    var acc = '';
+    try{
+      var res = await fetch(API + '/api/chat/stream', {
+        method:'POST', mode:'cors',
+        headers:{'Content-Type':'application/json','X-Session-Id':sid},
+        body: JSON.stringify({message:text})
+      });
+      if(!res.ok){
+        var err = {}; try { err = await res.json(); } catch(e){}
+        throw new Error(err.error || ('Request failed (' + res.status + ')'));
+      }
+      var reader = res.body.getReader(), dec = new TextDecoder();
+      while(true){
+        var r = await reader.read();
+        if(r.done) break;
+        acc += dec.decode(r.value, {stream:true});
+        bot.className = 'msg bot';
+        bot.innerHTML = render(acc);
+        log.scrollTop = log.scrollHeight;
+      }
+      if(!acc) bot.innerHTML = render('No response. Please try again.');
+    }catch(e){
+      bot.className = 'msg bot error';
+      bot.textContent = (e && e.message && e.message !== 'Failed to fetch')
+        ? e.message
+        : 'Could not reach the assistant. If it was idle, give it 30 seconds to wake up and try again.';
+    }
+    setBusy(false);
+    input.focus();
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var t = input.value; input.value = ''; input.style.height = 'auto';
+    send(t);
+  });
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); form.requestSubmit(); }
+  });
+  input.addEventListener('input', function(){
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  });
+  suggest.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){ send(b.textContent); });
+  });
+
+  /* ---- PDF attach ---- */
+  $('chatAttach').addEventListener('click', function(){ fileInput.click(); });
+  fileInput.addEventListener('change', async function(){
+    var f = fileInput.files[0];
+    fileInput.value = '';
+    if(!f) return;
+    if(!/\.pdf$/i.test(f.name)){ addMsg('bot error', 'Only PDF files are supported.'); return; }
+    var note = addMsg('bot pending', 'reading ' + f.name + '…');
+    var fd = new FormData(); fd.append('file', f);
+    try{
+      var res = await fetch(API + '/api/upload', {method:'POST', mode:'cors', headers:{'X-Session-Id':sid}, body:fd});
+      var data = await res.json();
+      if(!res.ok) throw new Error(data.error || 'Upload failed');
+      note.className = 'msg bot';
+      note.textContent = 'Attached ' + data.filename + '. Ask me how Nirmalya\'s work matches it.';
+      attachedName.textContent = data.documents.join(', ');
+      attached.classList.add('show');
+      suggest.style.display = 'none';
+    }catch(e){
+      note.className = 'msg bot error';
+      note.textContent = (e && e.message && e.message !== 'Failed to fetch') ? e.message : 'Upload failed: could not reach the assistant.';
+    }
+  });
+
+  /* ---- new conversation ---- */
+  $('chatReset').addEventListener('click', async function(){
+    try { await fetch(API + '/api/reset', {method:'POST', mode:'cors', headers:{'X-Session-Id':sid}}); } catch(e){}
+    log.innerHTML = '';
+    attached.classList.remove('show');
+    suggest.style.display = '';
+    addMsg('bot', GREETING);
+  });
+})();
+</script>
+
+</body>
+</html>
