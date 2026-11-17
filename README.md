@@ -1,4 +1,4 @@
-# Portfolio Assistant
+# Portfolio Assistant :-
 
 A chatbot that answers questions about my machine learning projects, embedded in my portfolio site. Recruiters can also attach a job description (PDF) and ask how my work matches it.
 
